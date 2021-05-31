@@ -42,7 +42,7 @@ class PostController extends Controller
     {
            //validation
         $request ->validate([
-        'title' => 'required|string|max:255',
+        'title' => 'required|string|max:255|unique',
         'date' => 'required|date',
         'content' => 'required|string',
         'image' => 'nullable|url'
@@ -114,7 +114,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        
+
         return redirect()->route('admin.posts.index')->with('message', 'Post eliminato!');
     }
 }
