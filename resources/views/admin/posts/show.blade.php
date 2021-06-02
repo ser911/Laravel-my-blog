@@ -11,6 +11,12 @@
        
         <small>{{$post->date}}</small>
         <p>{{$post->content}}</p>
+        <div>
+         @foreach ($post->tags as $tag)
+            <span class="badge badge-primary"> {{$tag->name}} </span>
+         @endforeach
+
+        </div>
 
     </div>   
     <div class="mt-5">

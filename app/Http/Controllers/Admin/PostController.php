@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Tag;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +30,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -40,6 +42,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+         
            //validation
         $request ->validate([
         'title' => 'required|string|max:255|unique:posts',
@@ -62,9 +65,9 @@ class PostController extends Controller
 
         $data['slug'] = Str::slug($data['title'], '-');
 
-    
-    
-       Post::create($data); 
+        $newPost = Post::create($data);
+         
+       $newPost->tags()->attach($data['tags']); 
 
        // redirect
 
@@ -90,7 +93,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $tags = Tag::all(); 
+        return view('admin.posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -128,6 +132,8 @@ class PostController extends Controller
     
        $post->update($data);
 
+       $post->tags()->sync($data['tags']);
+
        return redirect()->route('admin.posts.show', $post);
     }
 
@@ -139,6 +145,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+
+        $post->tags()->detach();
+
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('message', 'Post eliminato!');

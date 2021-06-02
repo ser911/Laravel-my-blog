@@ -43,6 +43,17 @@
          <input type="checkbox" class="form-check-input" id="published" name="published" {{$post->published ? 'checked' : ''}}>
          <label for="published" class="form-check-label">Pubblica</label>
     </div>
+
+        <div class="mt-3">
+<h3>Tags</h3>
+@foreach ($tags as $tag)
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="tags[]" id="{{$tag->name}}" value="{{$tag->id}}" {{$post->tags->contains($tag) ? 'checked' : ''}}>
+        <label for="{{$tag->name}}" class="form-check-label">{{$tag->name}}</label>
+    </div>
+@endforeach
+
+    </div>
     
     <div class="mt-3">
     <button type="submit" class="btn btn-primary">Modifica</button>
