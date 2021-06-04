@@ -35,7 +35,17 @@
         </li>  
         <li class="list-group-item-primary none">
                {{$comment->content}}    
-        </li>       
+        </li>
+        
+        <div class="p-2">
+        <form action="{{route('admin.comments.destroy', ['comment' => $comment->id])}}" method="POST"></form>
+        
+        @csrf
+        @method('DELETE')
+
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+        
+        </div>       
      
      @endforeach
 </ul>
@@ -45,5 +55,14 @@
     <a href="{{route('admin.posts.index')}}">Torna alla lista degli articoli</a>
 
 </div>
+
+@if (session('message'))
+    <div class="alert alert-success" style="position: fixed; bottom: 30px; right: 30px">
+        {{ session('message') }}
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+@endif
 
    @endsection
