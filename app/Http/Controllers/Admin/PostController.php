@@ -66,9 +66,12 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title'], '-');
 
         $newPost = Post::create($data);
+
+        if(isset($data['tags'])){
          
        $newPost->tags()->attach($data['tags']); 
-
+        
+    }
        // redirect
 
        return redirect()->route('admin.posts.index');
@@ -132,6 +135,10 @@ class PostController extends Controller
     
        $post->update($data);
 
+        if(!isset($data['tags'])){
+            $data['tags'] = [];
+        }
+           
        $post->tags()->sync($data['tags']);
 
        return redirect()->route('admin.posts.show', $post);
