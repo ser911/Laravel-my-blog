@@ -36,9 +36,9 @@
         <li class="list-group-item-primary none">
                {{$comment->content}}    
         </li>
-        
+
         <div class="p-2">
-        <form action="{{route('admin.comments.destroy', ['comment' => $comment->id])}}" method="POST"></form>
+        <form action="{{route('admin.comments.destroy', ['comment' => $comment->id])}}" method="POST">
         
         @csrf
         @method('DELETE')
@@ -48,6 +48,7 @@
         </div>       
      
      @endforeach
+     </form>
 </ul>
 </div>
 @endif
